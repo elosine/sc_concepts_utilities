@@ -1,0 +1,1 @@
+~myBuffs = SoundFile.collectIntoBuffers("/Volumes/Annea/Bertha/Kontakt 2 Library/12 - Loops/Lahi Mavaru/109-Lahi Mavaru Samples/*"); 

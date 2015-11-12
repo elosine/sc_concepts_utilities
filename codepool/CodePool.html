@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title></title>
+<meta name="Generator" content="Cocoa HTML Writer">
+<meta name="CocoaVersion" content="949.54">
+<style type="text/css">
+p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco; min-height: 12.0px}
+p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Arial; color: #333333}
+p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Arial; color: #333333; min-height: 15.0px}
+p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Helvetica}
+p.p7 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 9.0px Monaco; min-height: 12.0px}
+p.p8 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 12.0px Helvetica}
+p.p9 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 12.0px Helvetica; min-height: 14.0px}
+p.p10 {margin: 0.0px 0.0px 0.0px 85.0px; text-indent: -85.0px; font: 12.0px Helvetica}
+p.p11 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 9.0px Monaco; color: #9d2727}
+p.p12 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 9.0px Monaco}
+p.p13 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 14.0px Helvetica}
+p.p14 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 14.0px Helvetica; min-height: 17.0px}
+p.p15 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 9.0px Monaco; color: #606060}
+p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco; color: #bf0000}
+p.p17 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco}
+p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco; color: #606060}
+span.s1 {font: 18.0px Helvetica}
+span.s2 {font: 13.0px Arial; color: #333333}
+span.s3 {color: #0000bf}
+span.s4 {color: #000000}
+span.s5 {color: #0519b3}
+span.s6 {color: #606060}
+span.s7 {color: #9d2727}
+span.s8 {color: #0011b9}
+span.Apple-tab-span {white-space:pre}
+</style>
+</head>
+<body>
+<p class="p1"><span class="s1"><b>CodePool<span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b></span><b>a system for collaborative coding</b><span class="s1"><b><span class="Apple-tab-span">	</span></b></span></p>
+<p class="p2"><br></p>
+<p class="p1"><b>Inherits from: Object</b></p>
+<p class="p3"><br></p>
+<p class="p1">CodePool was designed to be used by a group to perform collaborative works. Additionally it is well suited to situations where you simply want to keep track of what environmental variables are in use and what/when code has been compiled and by whom.</p>
+<p class="p2"><br></p>
+<p class="p1">This class is cross platform with some exceptions. Currently <span class="s2">the Swing version:</span></p>
+<p class="p4">- does not create the other post window showing everything as it comes in.</p>
+<p class="p4">- does not show timestamps on code block as Windows SC doesn't have <span class="s3">Date</span> working.</p>
+<p class="p4">- does not let you send your code by pressing return, you need to click the button.</p>
+<p class="p5"><br></p>
+<p class="p4">Some things to keep in mind when using CodePool:</p>
+<p class="p4">- make sure to .store (not .send!) all of your SynthDefs in the CodePool window before using them so that everyone will have them.</p>
+<p class="p4">- only "~" variables will appear in the variable list so it is best to avaoid sending code with non "~" variables.</p>
+<p class="p4">- as this is ment to be a collaborative system, it is a good idea to send your code in format readable by humans at a glance.</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p6"><b>Creation / Class Methods</b></p>
+<p class="p7"><br></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>*new (name, addr,port)</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Create a new CodePool instance.</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>name </b>- A String identifying code sent from this instance. Default is "Default".</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>addr </b>- The String IP address to send code to. Default is "127.0.0.1".</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>port </b>- The int port to send code to. Default is 57120.</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// example</p>
+<p class="p12"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>c = <span class="s5">CodePool</span>.new(<span class="s6">"me"</span>, <span class="s6">"127.0.0.1"</span>, 57120);</p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>c.putCode(</span><span class="s6">"\"test\""</span><span class="s4">); </span>// writes "test" to the code window</p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>c.sendCode; </span>// same as pressing the "Send" button or Enter in the code window</p>
+<p class="p7"><br></p>
+<p class="p7"><br></p>
+<p class="p13"><b>Accessing Instance and Class Variables</b></p>
+<p class="p9"><span class="Apple-tab-span">	</span></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>codeArray</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b><span class="Apple-tab-span">	</span></p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Array containing all code that has been sent using CodePool. Used to get specific blocks of code that has been sent if you know the index. This is mainly here for cases where you would want to automate CodePool.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Default value is [].</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>name</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b><span class="Apple-tab-span">	</span></p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Explanation including the type of <b>name </b>and a link to its help file.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Default value is Default.</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>port_(arg1)</b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>port</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b><span class="Apple-tab-span">	</span></p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Port of where to send code to.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Default value is 57120.</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>addr_(arg1)</b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>addr</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b><span class="Apple-tab-span">	</span></p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>IP address of where to send code to.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>Default value is "127.0.0.1".</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p13"><b>Doing Some Task (optional)</b></p>
+<p class="p14"><br></p>
+<p class="p8">A short bit of prose explaining something about the task.</p>
+<p class="p9"><span class="Apple-tab-span">	</span></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>send (code)</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Sends a String of code to the specified network address and port. Once sent it will compile on the target machine.</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>code </b>- Any valid SuperCollider code written as a String in quotes. to send code involving quotes make sure to use \".</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// send some code<span class="Apple-converted-space"> </span></p>
+<p class="p12"><span class="s7"><span class="Apple-tab-span">	</span></span><span class="Apple-tab-span">	</span>s = <span class="s5">Server</span>.local;</p>
+<p class="p12"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>s.boot;</p>
+<p class="p12"><span class="s7"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>c = <span class="s5">CodePool</span>.new(<span class="s6">"me"</span>, <span class="s6">"127.0.0.1"</span>, 57120);</p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>c.send(</span><span class="s6">"a = {SinOsc.ar(440,0,0.3)}.play;"</span><span class="s4">); </span>//code must be enclosed in quotes ""</p>
+<p class="p15"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>c.send(</span>"a.release(1);"<span class="s4">);</span></p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>c.send(</span><span class="s6">"\"test\""</span><span class="s4">); </span>// make sure to use \" for quotes</p>
+<p class="p7"><br></p>
+<p class="p7"><br></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>putCode (code)</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Puts a String of code to the code window without sending it anywhere. This is mainly here for cases where you would want to automate CodePool.</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>code </b>- Any valid SuperCollider code written as a String in quotes. to send code involving quotes make sure to use \".</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// put some code in the code window</p>
+<p class="p12"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>c.putCode(<span class="s6">"\"test\""</span>); // watch the code window</p>
+<p class="p7"><br></p>
+<p class="p7"><br></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>getCode</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Returns the current contents of the code window as a String. This is mainly here for cases where you would want to automate CodePool. For access to specific blocks of code use codeArray.</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// store the contents of the code window into a variable</p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>s = c.getCode; </span>// get the code window as a String (make sure something is there first)</p>
+<p class="p12"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>s.postln;</p>
+<p class="p7"><br></p>
+<p class="p7"><br></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>sendCode</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Sends the current contents of the code window to the specified network address and port. This is mainly here for cases where you would want to automate CodePool.</p>
+<p class="p9"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p11"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>// make sure there's something in the code window</p>
+<p class="p12"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>c.sendCode;</p>
+<p class="p7"><br></p>
+<p class="p7"><br></p>
+<p class="p13"><b>Examples</b></p>
+<p class="p3"><br></p>
+<p class="p16">// send to only your computer</p>
+<p class="p3"><br></p>
+<p class="p17">c = <span class="s8">CodePool</span>.new(<span class="s6">"my name"</span>);</p>
+<p class="p17">c.putCode(<span class="s6">"\"test\""</span>);</p>
+<p class="p17">c.sendCode;</p>
+<p class="p3"><br></p>
+<p class="p3"><br></p>
+<p class="p16">// OscGroup version (make sure to change all of the names!)</p>
+<p class="p3"><br></p>
+<p class="p16"><span class="s4">c = </span><span class="s3">CodePool</span><span class="s4">.new(</span><span class="s6">"Your Name"</span><span class="s4">,</span><span class="s6">"127.0.0.1"</span><span class="s4">,22244);<span class="Apple-tab-span">	</span></span>// 22244 is the OscGroupClient port</p>
+<p class="p3"><br></p>
+<p class="p16">// OSX users who have installed the OscGroupClient quark (and ProcessTools) can use this</p>
+<p class="p18"><span class="s4">a = </span><span class="s3">OscGroupClient</span><span class="s4">(</span>"music.mills.edu"<span class="s4">, </span>"name"<span class="s4">, </span>"password"<span class="s4">, </span>"group"<span class="s4">, </span>"groupword"<span class="s4">);</span></p>
+<p class="p17">a.join;</p>
+<p class="p3"><br></p>
+<p class="p16">// when you are done</p>
+<p class="p17">a.close;</p>
+<p class="p3"><br></p>
+<p class="p16">// Without the quart you must start OscGroupClient from the command line by typing:</p>
+<p class="p16">// OscGroupClient music.mills.edu 22242 22243 22244 57120 name password group groupword</p>
+<p class="p16">// If you are on OSX type ./ first then all the rest</p>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Routine{ 3.do{ 1.postln; 1.wait; 2.postln; 1.wait };  2.wait; "done".postln }.play

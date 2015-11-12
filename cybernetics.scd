@@ -1,0 +1,1 @@
+play{ar(r=RLPF,Saw.ar([200,302]).mean,5**(n={LFNoise1.kr(1/8)})*1e3,0.6)+r.ar(Saw ar:Amplitude.kr(3**n*3e3*InFeedback.ar(0)+1,4,4),1e3)/5!2}

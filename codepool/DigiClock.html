@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title></title>
+<meta name="Generator" content="Cocoa HTML Writer">
+<meta name="CocoaVersion" content="949.54">
+<style type="text/css">
+p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco; min-height: 12.0px}
+p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #0d14e7}
+p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; color: #4148b6; min-height: 14.0px}
+p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Helvetica}
+p.p7 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 9.0px Monaco; min-height: 12.0px}
+p.p8 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 12.0px Helvetica}
+p.p9 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 12.0px Helvetica; min-height: 14.0px}
+p.p10 {margin: 0.0px 0.0px 0.0px 85.0px; text-indent: -85.0px; font: 12.0px Helvetica}
+p.p11 {margin: 0.0px 0.0px 0.0px 85.0px; text-indent: -85.0px; font: 12.0px Helvetica; min-height: 14.0px}
+p.p12 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 14.0px Helvetica}
+p.p13 {margin: 0.0px 0.0px 0.0px 57.0px; text-indent: -57.0px; font: 14.0px Helvetica; min-height: 17.0px}
+p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco}
+p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px Monaco; color: #0000bf}
+span.s1 {font: 18.0px Helvetica}
+span.s2 {color: #444bb2}
+span.s3 {color: #4148b6}
+span.s4 {color: #000000}
+span.s5 {text-decoration: underline}
+span.s6 {font: 9.0px Monaco; color: #606060}
+span.s7 {font: 9.0px Monaco}
+span.s8 {color: #1c24a6}
+span.s9 {color: #0000bf}
+span.s10 {color: #606060}
+span.Apple-tab-span {white-space:pre}
+</style>
+</head>
+<body>
+<p class="p1"><span class="s1"><b>DigiClock<span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b></span><b>Digital timer</b></p>
+<p class="p2"><br></p>
+<p class="p1"><b>Inherits from: </b><a href="../Core/Object.html"><span class="s2"><b>Object</b></span></a></p>
+<p class="p3"><br></p>
+<p class="p1">A digital timer <a href="../GUI/GUI.html"><span class="s3">GUI</span></a>.</p>
+<p class="p2"><br></p>
+<p class="p4"><span class="s4"><b>See also: </b><a href="../GUI/SCView.html"><span class="s5">SCView</span></a>, <a href="../GUI/GUI.html"><span class="s5">GUI</span></a>, <a href="../GUI/SCScrollTopView.html"><span class="s5">SCScrollTopView</span></a>, <a href="../GUI/Pen.html"><span class="s3">Pen</span></a></span></p>
+<p class="p5"><br></p>
+<p class="p6"><b>Creation / Class Methods</b></p>
+<p class="p7"><br></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span>*new(window,scale, displayColor,moveX,moveY,font)</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Creates a new DigiClock instance. Currently you can run more than one clock at once, but if you stop or reset one DigiClock they all stop.</p>
+<p class="p8"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>window </b>- Parent window in which to embed the clock. If nil, the clock will be created within its own window.</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>scale </b>- This is a multiplier for the size of the DigiClock window. The Default is 1.</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>displayColor </b>- Color of the number display. The Default is cyan.</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>moveX </b>- X coordinant position.</p>
+<p class="p10"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>moveY </b>- Y coordinant position.</p>
+<p class="p10"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><b>font<span class="Apple-converted-space"> </span></b> - The font used for the clock; must be given as a string. The Default is <span class="s6">"DS-Digital" </span>which must be downloaded first to be used<span class="s6">. </span>Web Site: http://www.dailyfreefonts.com/fonts/infos/38-DS-Digital.html</p>
+<p class="p11"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></p>
+<p class="p6"><b>Instance Methods</b></p>
+<p class="p7"><br></p>
+<p class="p8"><span class="s7"><span class="Apple-tab-span">	</span></span><b>start</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Starts the DigiClock timer.</p>
+<p class="p9"><br></p>
+<p class="p8"><span class="s7"><span class="Apple-tab-span">	</span></span><b>stop</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Pauses the DigiClock, but does not reset it</p>
+<p class="p9"><br></p>
+<p class="p8"><span class="s7"><span class="Apple-tab-span">	</span></span><b>reset</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Stops and resets the DigiClock timer.</p>
+<p class="p9"><span class="Apple-tab-span">	</span></p>
+<p class="p8"><span class="Apple-tab-span">	</span><b>close</b></p>
+<p class="p9"><b><span class="Apple-tab-span">	</span></b></p>
+<p class="p8"><b><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></b>Stops and closes the DigiClock timer.</p>
+<p class="p9"><br></p>
+<p class="p12"><b>Examples</b></p>
+<p class="p13"><br></p>
+<p class="p14">~clock = <span class="s8">DigiClock</span>.new;</p>
+<p class="p3"><br></p>
+<p class="p14">(</p>
+<p class="p14"><span class="Apple-tab-span">	</span><span class="s9">var</span> window,clocks,view;</p>
+<p class="p14"><span class="Apple-tab-span">	</span>window = <span class="s9">SCWindow</span>.new(<span class="s10">"Embedded DigiClocks"</span>,<span class="s9">Rect</span>(0,1000,1200,900));</p>
+<p class="p14"><span class="Apple-tab-span">	</span>window.front;</p>
+<p class="p14"><span class="Apple-tab-span">	</span>view = <span class="s9">FlowView</span>.new(window);</p>
+<p class="p14"><span class="Apple-tab-span">	</span>clocks = <span class="s9">Array</span>.newClear(30);</p>
+<p class="p14"><span class="Apple-tab-span">	</span>clocks.size.do({</p>
+<p class="p15"><span class="s4"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span>|i|</p>
+<p class="p14"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>clocks.put(i,<span class="s9">DigiClock</span>.new(view,exprand(0.25,0.75),<span class="s9">Color</span>.rand));</p>
+<p class="p14"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>})</p>
+<p class="p14">);</p>
+<p class="p3"><br></p>
+</body>
+</html>
