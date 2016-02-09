@@ -1,0 +1,1 @@
+{ComplexRes.ar(SoundIn.ar()*3, SinOsc.ar(SinOsc.kr(0.05).range(0.2, 50)).range(300, 1000), 0.8)}.play
