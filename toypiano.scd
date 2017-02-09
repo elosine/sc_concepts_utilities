@@ -1,7 +1,8 @@
 (
 SynthDef(\toypiano, {
-	arg obs=0, freq=300, t_tr=0;
+	arg obs=0, pitch=60, t_tr=0;
 	var imp = T2A.ar(t_tr);
+	var freq = pitch.
 	var sig = DynKlank.ar(
 		`[
 			[
