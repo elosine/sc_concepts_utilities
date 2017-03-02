@@ -49,7 +49,7 @@ SynthDef( \janus, {
 
 
 
-SynthDef(\bufRoll, { |start, time = 7, bufnum, rate = 1, amp = 1, density = 18,
+SynthDef(\bufRoll, { |time = 7, bufnum, rate = 1, amp = 1, density = 18,
 	attack = 0.002, decay = 0.01,	// attack and decay of individual stroke
 	out=0, ibs=0 |
 	var	sig, envDefault, in, env,
@@ -62,7 +62,7 @@ SynthDef(\bufRoll, { |start, time = 7, bufnum, rate = 1, amp = 1, density = 18,
 	env = Control.names(\env).kr((0 ! 40).overWrite(envDefault.asArray, 0));
 	in = In.ar(ibs);
 	sig = (in * strokeEnv).sum * EnvGen.ar(env, timeScale: time, doneAction:2);
-	ReplaceOut.ar(out, sig * amp);
+	Out.ar(out, sig * amp);
 }).add;
 
 
