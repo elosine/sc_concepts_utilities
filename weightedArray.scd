@@ -1,0 +1,1 @@
+[1,2,3,4].wchoose([0.8,0.1,0.07,0.03]); //wchoose allows a weighted choice of values in one array with respect to the weights in a second array (which must add up to 1 and there must be as many weights as items to pick from)
