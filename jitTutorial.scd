@@ -360,7 +360,7 @@ currentEnvironment.clear;
 //// if you want to keep using the current environment as usual, you can restrict the
 //// scope of proxyspace to one document (note: this is mac-only currently)
 //
-//EnvirDocument(p, "proxyspace");    // to test this, check for currentEnvironment here
+EnvirDocument(p, "proxyspace");    // to test this, check for currentEnvironment here
 //                    // and in the envir document.
 
 // you can also access the proxy space and the proxies in it indirectly:
@@ -394,11 +394,6 @@ p.envir[\nono].postln;    // there is no proxy with this name.
 // c) play/stop, send/release, pause/resume, clear
 // d) the parameter context
 // A NodeProxy has two internal contexts in which the objects are inserted: The group, which is on the server, and the nodeMap, which is a client side parameter context. As the group can contain an order of synths, there is a client side representation, in which the source objects are stored (see Order).
-// make new space
-p = ProxySpace.push(s.boot);
-~z.play; ~y.ar; // explicitly initialize proxies
-a) NodeProxy slots
-// One node proxy can hold several objects in an execution order. The index can be any positive integer.
 
 // make new space
 p = ProxySpace.push(s.boot);
@@ -428,7 +423,7 @@ One node proxy can hold several objects in an execution order. The index can be 
 ~y.source.postcs    // this returns the function in slot 0 only.
 
 // multiple assignment
-// the function is assigned to th slots from 1 to 4
+// the function is assigned to the slots from 1 to 4
 ~z[1..4] = { SinOsc.ar(exprand(300, 600), 0, LFTri.kr({exprand(1, 3)} ! 3).sum.max(0)) * 0.1 };
 
 
@@ -460,22 +455,22 @@ One node proxy can hold several objects in an execution order. The index can be 
 
 
 
-c) play/stop, send/free, pause/resume
-there are a couple of messages a NodeProxy understands that are related to play, stop etc. Here is what they do.
-play/stop
-this pair of messages is related to the monitoring function of the proxy. play starts monitoring, stop ends the monitoring. if the proxy group is playing (this can be tested with .isPlaying), play will not affect the proxie's internal behaviour in any way. Only if it is not playing (e.g because one has freed the group by cmd-period) it starts the synths/objects in the proxy. Stop never affects the internal state of the proxy.
+// c) play/stop, send/free, pause/resume
+// there are a couple of messages a NodeProxy understands that are related to play, stop etc. Here is what they do.
+// play/stop
+// this pair of messages is related to the monitoring function of the proxy. play starts monitoring, stop ends the monitoring. if the proxy group is playing (this can be tested with .isPlaying), play will not affect the proxie's internal behaviour in any way. Only if it is not playing (e.g because one has freed the group by cmd-period) it starts the synths/objects in the proxy. Stop never affects the internal state of the proxy.
 // first hit cmd-period.
 ~z = { max(SinOsc.ar(ExpRand(3, 160)), Saw.ar([304, 304.3])) * 0.1 };
 ~z.play;        // monitor the proxy
 ~z.stop;        // note that now the proxy is still playing, but only in private
 ~z.isPlaying;        // is the group playing? yes.
 ~z.monitor.isPlaying;    // is the monitor playing? no.
-You can pass a vol argument to play to adjust the monitor volume without affecting the proxy internal bus volume.
+// You can pass a vol argument to play to adjust the monitor volume without affecting the proxy internal bus volume.
 ~z.play(vol:0.3);
 // while playing you can set the volume also:
 ~z.vol = 0.8;
-send / release
-this pair of messages controls the synths within the proxy. It does not affect the monitoring (see above). send starts a new synth, release releases the synth. send by default releases the last synth. if the synth frees itself (doneAction 2) spawn can be used.
+/*send / release
+this pair of messages controls the synths within the proxy. It does not affect the monitoring (see above). send starts a new synth, release releases the synth. send by default releases the last synth. if the synth frees itself (doneAction 2) spawn can be used.*/
 // first hit cmd-period.
 ~z.play; // monitor. this starts also the synth, if the group wasn't playing.
 
@@ -492,12 +487,12 @@ this pair of messages controls the synths within the proxy. It does not affect t
 ~z.stop;
 
 ~z.play; // monitor. as the group was still playing, this does _not_ start the proxy.
-in order to free the synths and the group together, free is used:
+// in order to free the synths and the group together, free is used:
 ~z.free; // this does also not affect the monitoring.
 ~z.play; // monitor. as the group was not playing, this starts the proxy.
-in order to free the synths and the group, stop playback, end is used.
+// in order to free the synths and the group, stop playback, end is used.
 ~z.end(3); // end in 3 sec
-in order to rebuild the synthdef on the server, use rebuild. this is of course far less efficient than send, but it can make sense; e.g. the synthdef has random elements. UGens like Rand(300, 400) create new random values on every send, while client-side random functions like exprand(1, 1.3) only get built once; to force new decisions with these, one can use rebuild.
+// in order to rebuild the synthdef on the server, use rebuild. this is of course far less efficient than send, but it can make sense; e.g. the synthdef has random elements. UGens like Rand(300, 400) create new random values on every send, while client-side random functions like exprand(1, 1.3) only get built once; to force new decisions with these, one can use rebuild.
 (
 ~z = {
     Splay.ar(
@@ -514,8 +509,8 @@ in order to rebuild the synthdef on the server, use rebuild. this is of course f
 ~z.send;    // send just creates a new synth - new freq, all else remains the same
 ~z.rebuild;    // rebuild the synthdef, re-decide numbers of oscs
 ~z.end;
-pause / resume
-when paused, a node proxy still stays active, but every synth that is started is paused until the proxy is resumed again.
+// pause / resume
+// when paused, a node proxy still stays active, but every synth that is started is paused until the proxy is resumed again.
 ~z.play;
 
 ~z.pause; // pause the synth.
@@ -524,24 +519,27 @@ when paused, a node proxy still stays active, but every synth that is started is
                             // which is paused.
 
 ~z.resume; // resume playing.
-Note that pause/resume causes clicks with audio rate proxies, which do not happen when pauseing control rate proxies.
-clear
-clear removes all synths, the group, the monitor and releases the bus number.
+// Note that pause/resume causes clicks with audio rate proxies, which do not happen when pauseing control rate proxies.
+// clear
+// clear removes all synths, the group, the monitor and releases the bus number.
 ~z.clear;
 ~z.bus;        // no bus
 ~z.isNeutral;    // not initialized.
-note that when other processes use the nodeproxy these are not notified. So clearing has to be done with regard to this.
-d) The parameter context
-what happens to function arguments?
+// note that when other processes use the nodeproxy these are not notified. So clearing has to be done with regard to this.
+
+
+
+// d) The parameter context
+// what happens to function arguments?
 ~y.play;
 ~y = { arg freq=500; SinOsc.ar(freq * [1, 1.1]) * 0.1 };
-now the argument 'freq' is a control in the synth (just like in SynthDef) which you can change by the 'set' message.
+// now the argument 'freq' is a control in the synth (just like in SynthDef) which you can change by the 'set' message.
 ~y.set(\freq, 440);
 
 // unlike in synths, this context is kept and applied to every new synth:
 
 ~y = { arg freq=500; Formant.ar(50, freq * [1, 1.1], 70) * 0.1 };
-the message xset is a variant of set, to crossfade the change using the current fadeTime:
+// the message xset is a variant of set, to crossfade the change using the current fadeTime:
 ~y.fadeTime = 3;
 ~y.xset(\freq, 600);
 
@@ -549,19 +547,19 @@ the message xset is a variant of set, to crossfade the change using the current 
 
 ~y[2] = { arg freq=500; SinOsc.ar(freq * [1, 1.1]) * LFPulse.kr(Rand(1, 3)) * 0.1 };
 ~y.xset(\freq, 300);
-the parameter context also can keep bus mappings. a control can be mapped to any control proxy :
+// the parameter context also can keep bus mappings. a control can be mapped to any control proxy :
 ~c = { MouseX.kr(300, 800, 1) };
 ~y.map(\freq, ~c);
 
 // also here the context is kept:
 
 ~y = { arg freq=500; Formant.ar(4, freq * [1, 1.1], 70) * 0.1 };
-the message xmap is a variant of map, to crossfade the change using the current fadeTime:
+// the message xmap is a variant of map, to crossfade the change using the current fadeTime:
 ~y.set(\freq, 440);
 ~y.xmap(\freq, ~c);
-to remove a setting or a mapping, use unmap / unset.
+// to remove a setting or a mapping, use unmap / unset.
 ~y.unmap;
-also multichannel controls can be mapped to a multichannel proxy using map :
+// also multichannel controls can be mapped to a multichannel proxy using map :
 ~c2 = { [MouseX.kr(300, 800, 1), MouseY.kr(300, 800, 1)] };
 ~y = { arg freq=#[440, 550]; SinOsc.ar(freq) * SinOsc.ar(freq + 3) * 0.05 };
 ~y.map(\freq, ~c2);
@@ -580,16 +578,16 @@ previous: jitlib_basic_concepts_02 next: jitlib_basic_concepts_04
 
 
 
-jitlib_basic_concepts_04
-Timing in NodeProxy
-See also: JITLib, jitlib_basic_concepts_03
-Changes that happen to NodeProxy, most importantly setting its source, are normally done whenever the put method is called (or, in ProxySpace, the assignment operation = ). Sometimes it is desirable to time these changes relative to a clock.
-a) clock
-b) quant and offset
-c) client and server tempo
-d) sample accurate output
-a) clock
-generally, every node proxy can have its own time base, usually a tempo clock. the clock is responsible for the timing of insertion of new functions, per default at the next beat of the clock.
+// jitlib_basic_concepts_04
+// Timing in NodeProxy
+// See also: JITLib, jitlib_basic_concepts_03
+// Changes that happen to NodeProxy, most importantly setting its source, are normally done whenever the put method is called (or, in ProxySpace, the assignment operation = ). Sometimes it is desirable to time these changes relative to a clock.
+// a) clock
+// b) quant and offset
+// c) client and server tempo
+// d) sample accurate output
+// a) clock
+// generally, every node proxy can have its own time base, usually a tempo clock. the clock is responsible for the timing of insertion of new functions, per default at the next beat of the clock.
 p = ProxySpace.push(s.boot);
 ~x.play; ~y.play;
 
@@ -617,19 +615,19 @@ p.clock = TempoClock.default; p.quant = 1.0;
 ~z.end;
 
 p.clear; // clear all.
-sequence of events
-When inserting a new function into the proxy, the synthdef is built, sent to the server who sends back a message when it has completed. Then the proxy waits for the next beat to start the synth. When using node proxies with patterns, the patterns are played using the clock as a scheduler.
-b) quant and offset
-In order to be able to control the offset/quant point of insertion, the 'quant' instance variable can be used, which can be either a number or an array of the form [quant, offset], just like in pattern.play(quant).
+// sequence of events
+// When inserting a new function into the proxy, the synthdef is built, sent to the server who sends back a message when it has completed. Then the proxy waits for the next beat to start the synth. When using node proxies with patterns, the patterns are played using the clock as a scheduler.
+// b) quant and offset
+// In order to be able to control the offset/quant point of insertion, the 'quant' instance variable can be used, which can be either a number or an array of the form [quant, offset], just like in pattern.play(quant).
 ~z.play; ~y.play;
 ~z = { Ringz.ar(Impulse.ar(2), exprand(300, 3400 ! 2), 0.08).dup * 0.2 };
 ~y.quant = [1, 0.3]; // offset of 0.3, quant of 1.0
 ~y = { Ringz.ar(Impulse.ar(1), 600, 0.05).dup };
 ~y.quant = [2, 1/3]; // offset of 1/3, quant of 2.0
 ~y = { Ringz.ar(Impulse.ar(0.5), 600, 0.05).dup };
-quant and offset scheduling is used for the following operations: play, put, removeAt, setNodeMap, wakeUp, rebuild (and the rebuild operations lag, setRates, bus_). For more information about quantisation in SC, see Quant.
-c) connecting client and server tempo
-a ProxySpace has the method ProxySpace: -makeTempoClock, which creates an instance of TempoBusClock together with a node proxy (~tempo) which it keeps in sync.
+// quant and offset scheduling is used for the following operations: play, put, removeAt, setNodeMap, wakeUp, rebuild (and the rebuild operations lag, setRates, bus_). For more information about quantisation in SC, see Quant.
+// c) connecting client and server tempo
+// a ProxySpace has the method ProxySpace: -makeTempoClock, which creates an instance of TempoBusClock together with a node proxy (~tempo) which it keeps in sync.
 p.makeTempoClock(2.0); // create a new tempoclock with 2 beats/sec
 ~y.play; ~x.play;
 ~y.quant = 1; // set the quant back to 1 and the offset to 0
@@ -641,8 +639,8 @@ p.clock.tempo = 2.2; // set the tempo to 2.2
 
 ~x.free;
 ~y.free;
-d) sample accurate output
-for efficiency, NodeProxy uses a normal Out UGen for writing to its bus. If sample accurate playback is needed (OffsetOut), the ProxySynthDef class variable ProxySynthDef: -sampleAccurate can be set to true. Note that for audio through from external sources, this creates a delay for up to one block (e.g. about 1 ms.)
+// d) sample accurate output
+// for efficiency, NodeProxy uses a normal Out UGen for writing to its bus. If sample accurate playback is needed (OffsetOut), the ProxySynthDef class variable ProxySynthDef: -sampleAccurate can be set to true. Note that for audio through from external sources, this creates a delay for up to one block (e.g. about 1 ms.)
 // example
 
 ProxySynthDef.sampleAccurate = false;
@@ -650,7 +648,7 @@ ProxySynthDef.sampleAccurate = false;
 ~x.play;
 
 // the grain frees itself
-~x = { SinOsc.ar(800) * EnvGen.ar(Env.perc(0.001, 0.03, 0.4), doneAction: Done.freeSelf) };
+~x = { SinOsc.ar(800) * EnvGen.ar(Env.perc(0.001, 0.03, 0.4), doneAction: 2) };
 
 
 // jittery tone.
@@ -1058,8 +1056,8 @@ SynthDef('jitlibtest', {arg out= 0, freq= 400;
 
 
 //and access it later in jitlib like this.  just give the name of the synthdef as a symbol
-~src= 'jitlibtest';
-~out= ~src;
+~src = 'jitlibtest';
+~out = ~src;
 ~src.set(\freq, 300);
 ~src.set(\freq, 200);
 ~out.stop;
@@ -1252,6 +1250,758 @@ p= ProxySpace.push(s);			//clear and create new
 
 //--------------------------------------------------------------------------------
 //this tutorial is just scratching a little on the surface of jitlib.  find out more in julian's extensive helpfiles [JITLib]
+
+
+
+
+
+
+proxy space examples
+
+
+
+
+preparation of the environment
+
+(
+s = Server.local;
+s.boot;
+p = ProxySpace.push(s);
+)
+
+playing and monitoring
+
+// play some output to the hardware busses, this could be any audio rate key.
+~out.play;
+
+~out = { SinOsc.ar([400, 408]*0.8, 0, 0.2) };
+
+
+// replacing the node. the crossfade envelope is created internally.
+~out = { SinOsc.ar([443, 600-Rand(0,200)], 0, 0.2) };
+~out = { Resonz.ar(Saw.ar(40+[0,0.2], 1), [1200, 1600], 0.1) + SinOsc.ar(60*[1,1.1],0,0.2) };
+~out = { Pan2.ar(PinkNoise.ar(0.1), LFClipNoise.kr(2)) };
+
+setting the node controls
+
+~out = { arg rate=2; Pan2.ar(PinkNoise.ar(0.1), LFClipNoise.kr(rate)) };
+~out.set(\rate, 30);
+~out = { arg rate=2; Pan2.ar(Dust.ar(2000, 0.2), LFClipNoise.kr(rate)) };
+~out.set(\rate, 2);
+
+referencing between proxies
+
+~lfo = { LFNoise2.kr(30, 300, 500) };
+~out = { SinOsc.ar(~lfo.kr, 0, 0.15)  };
+~out = { SinOsc.ar(~lfo.kr * [1, 1.2], 0, 0.1) * Pulse.ar(~lfo.kr * [0.1, 0.125], 0.5) };
+~lfo = { LFNoise1.kr(30, 40) + SinOsc.kr(0.1, 0, 200, 500) };
+~out = { SinOsc.ar(~lfo.kr * [1, 1.2], 0, 0.1)  };
+~lfo = 410;
+
+math
+
+// unary operators
+~lfo2 = { SinOsc.kr(0.5, 0, 600, 100)  };
+~lfo = ~lfo2.abs;
+~lfo2 = { SinOsc.kr(1.3, 0, 600, 100)  };
+
+
+// binary operators
+~lfo3 = { LFTri.kr(0.5, 0, 80, 300) };
+~lfo = ~lfo2 + ~lfo3;
+~lfo = ~lfo3;
+~lfo = (~lfo3 / 50).sin * 200 + 500 * { LFTri.kr(~lfo.kr * 0.0015, 0, 0.1 * ~lfo3.kr / 90, 1) };
+~lfo3 = { Mix(~lfo2.kr * [1, 1.2]) };
+
+currentEnvironment.free; // free all node proxies
+~out.stop; // free the playback synth.
+
+
+waking up a network of proxies
+
+// hit cmd-. to stop all nodes
+// start again
+~out.play;
+
+feeding back (one buffer size delay)
+
+~out = { SinOsc.ar([220, 330], ~out.ar(2).reverse * LFNoise2.kr(0.5, 4*pi), 0.4) };
+
+// there is no immediacy: hear the buffer size cycle
+~out = { Impulse.ar(1 ! 2) + (~out.ar(2) * 0.99) };
+
+
+
+// supercollider 'differential equations'
+
+~out = { SinOsc.ar(Slope.ar(~out.ar) * MouseX.kr(1000, 18000, 1)) * 0.1 + SinOsc.ar(100, 0, 0.1) };
+
+(
+~out = { var z, zz;
+	z = Slope.ar(~out.ar);
+	zz = Slope.ar(z);
+	SinOsc.ar(Rand(300,410), z) *
+	SinOsc.ar(zz * 410)
+	* 0.1 + Decay2.ar(Pan2.ar(Dust.ar(600), MouseX.kr(-1,1)), 0.01, 0.05);
+}
+)
+
+
+multiple control
+
+(
+~out = { arg freqOffest;
+	var ctl;
+	ctl = Control.names(\array).kr(Array.rand(8, 400, 1000));
+	Pan2.ar(Mix(SinOsc.ar(ctl + freqOffest, 0, 0.1 / 8)), LFNoise0.kr(2))
+};
+)
+
+~out.setn(\array, Array.exprand(8, 400, 2000));
+~out.set(\freqOffest, rrand(300,200));
+~out.map(\freqOffest, ~lfo);
+
+// a simpler short form for this is:
+(
+~out = { arg freqOffest=0, array = #[ 997, 777, 506, 553, 731, 891, 925, 580 ];
+	Pan2.ar(Mix(SinOsc.ar(array + freqOffest, 0, 0.1 / 8)), LFNoise0.kr(2))
+};
+)
+
+
+
+mixing
+
+
+~out1 = { SinOsc.ar(600, 0, 0.1) };
+~out2 = { SinOsc.ar(500, 0, 0.1) };
+~out3 = { SinOsc.ar(400, 0, 0.1) };
+~out = ~out2 + ~out1 + ~out3;
+
+~out = ~out1 + ~out2;
+~out = ~out1;
+
+// another way is:
+~out = { SinOsc.ar(600, 0, 0.1) };
+~out.add({ SinOsc.ar(500, 0, 0.1) });
+~out.add({ SinOsc.ar(400, 0, 0.1) });
+
+// or with direct access:
+~out[1] = { SinOsc.ar(500 * 1.2, 0, 0.1) };
+~out[2] = { SinOsc.ar(400 * 1.2, 0, 0.1) };
+
+
+
+
+restoring / erasing
+
+~out.free; // this frees the group, not the play synth x
+~out.send; // resends all synths
+~out.free;
+~out.send(nil, 1); // this sends at index 1 only
+~out.send;
+
+// removing:
+~out.removeLast;
+~out.removeAt(0);
+
+// cleaning up, freeing the bus:
+~out.clear; // this neutralizes the proxy, and frees its bus
+
+
+for more on the proxy slots see: jitlib_basic_concepts_03
+
+
+
+garbage collecting
+
+// often there are proxies playing that are not used anymore - this is good,
+// because they might be used again at any time.
+// this shows how to free unused proxies, such as ~out1, ~out2.
+
+~out.play;
+~out = { Pan2.ar(SinOsc.ar(~lfo.kr, 0, 0.2), sin(~lfo.kr / 10)) }; // ~lfo is kept, as its parents.
+~lfo = { LFNoise2.kr(3, 160, 400) };
+
+p.keysValuesDo { arg key, proxy; [key, proxy.isPlaying].postln };
+p.reduce; // all monitoring proxies (in this case ~out) are kept. equivalent: p.reduce(to: [~out]);
+p.keysValuesDo { arg key, proxy; [key, proxy.isPlaying].postln };
+
+// to remove everything else:
+p.postln;
+p.clean; // all monitoring proxies (in this case ~out) are kept.
+p.postln;
+
+// after ~out is stopped, it is removed, too:
+~out.stop; // stop monitor
+p.clean;
+p.postln; // empty space.
+
+
+execution order
+
+
+// you can .play .kr or .ar also a name that is not yet used.
+// the rate is guessed as far as possible. on this topic see also: [the_lazy_proxy]
+
+~myOut.play; // play some key (audio rate is assumed)
+
+// the rate is determined from the first access:
+// like this ~lfo becomes control rate
+
+~myOut = { SinOsc.ar(~freq.kr * 2, 0, 0.1) };
+~freq = 900;
+~freq = { SinOsc.kr(115, 0, 70, 220) }
+
+~myOut = { SinOsc.ar(~otherFreq.ar * 2, 0, 0.1) };
+~otherFreq = { SinOsc.ar(115, 0, 70, 220) };
+
+currentEnvironment.clear; // clear every  proxy in this environment and remove them. (same: p.clear)
+
+
+
+
+setting the xfade time
+
+~out.play;
+
+~out.fadeTime = 4;
+~out = { SinOsc.ar(Rand(800, 300.0)*[1,1.1], 0, 0.1) };
+~out = { SinOsc.ar(Rand(800, 300.0)*[1,1.1], 0, 0.1) };
+~out.fadeTime = 0.01;
+~out = { SinOsc.ar(Rand(800, 300.0)*[1,1.1], 0, 0.1) };
+~out = { SinOsc.ar(Rand(800, 300.0)*[1,1.1], 0, 0.1) };
+
+~out.free(3);  // release the synths and the group with a given fadeTime without changing proxy time
+~out.stop;	// stop monitor
+
+
+
+setting and mapping arguments
+
+
+~out.play;
+
+~out = { arg freq=500, ffreq=120; SinOsc.ar(freq*[1,1.1], SinOsc.ar(ffreq, 0, pi), 0.2) };
+~out.set(\freq, 400+100.rand2);
+~out.set(\freq, 400+100.rand2);
+~out.set(\ffreq, 30+20.rand2);
+~out.unset(\freq, \ffreq);  // remove the setting
+~out.set(\ffreq, 30+10.rand2, \freq, 500 + 200.rand2);
+
+
+// argument settings and mappings are applied to every new function
+~out = { arg freq=100, ffreq=20; SinOsc.ar(freq, SinOsc.ar(SinOsc.ar(ffreq)*ffreq, 0, pi), 0.2) };
+
+// mapping to other proxies
+~lfo = { SinOsc.kr(0.3, 0, 80, 100) };
+~out.map(\ffreq, ~lfo);
+
+~out = { arg freq=300, ffreq=20; Pulse.ar(freq*[1,1.1]+ SinOsc.ar(ffreq, 0, freq), 0.3, 0.1) };
+~out = { arg freq=300, ffreq=20; BPF.ar(LFSaw.ar(ffreq*[1,1.1], 0, 1), freq, 0.2) };
+
+~lfo = { FSinOsc.kr(0.3, 0, 30, 200) + FSinOsc.kr(10, 0, 10) };
+~out = { arg freq=300, ffreq=20; SinOsc.ar(freq*[1,1.1], SinOsc.ar(ffreq, 0, pi), 0.1) };
+
+
+// crossfaded setting and mapping: fadeTime is used
+~out.fadeTime = 2;
+~out.xset(\freq, 9000);
+~out.xset(\freq, rrand(400, 700));
+
+~lfo = { FSinOsc.kr(0.1, 0, 30, 100) };
+~lfo2 = { LFClipNoise.kr(3, 100, 200) };
+~lfo3 = StreamKrDur(Pseq([Prand([530, 600],1), 700, 400, 800, 500].scramble, inf) / 3, 0.2);
+
+~out.xmap(\ffreq, ~lfo2);
+~out.xmap(\ffreq, ~lfo);
+~out.xmap(\ffreq, ~lfo3);
+
+// argument rates: just like a synthdef has input 'rates' (like \ir or \tr), a nodeproxy control
+// can be given a rate. this rate is used for each function passed into the proxy.
+
+// trigger inputs
+~out = { arg trig, dt=1; Decay2.kr(trig, 0.01, dt) * Mix(SinOsc.ar(7000*[1.2, 1.3, 0.2])) }
+~out.setRates(\trig, \tr);
+
+// set the group, so the node proxy does not store the new value
+~out.group.set(\trig, 0.1, \dt, 0.1);
+~out.group.set(\trig, 0.4, \dt, 0.31);
+~out.group.set(\trig, 0.13, \dt, 2);
+
+// lagging controls:
+~out.lag(\xfreq, 1); // equivalent to ~out.setRates(\xfreq, 1);
+(
+~out = { arg trig, dt=1, xfreq=700;
+	Decay2.kr(trig, 0.01, dt) * Mix(SinOsc.ar(xfreq*[1.2, 1.3, 0.2]))
+};
+)
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+~out.group.set(\trig, 0.1, \dt, 0.5, \xfreq, rrand(2000,9000));
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+
+// changing the lag, the synth is reconstructed with the new lag:
+
+~out.lag(\xfreq, 0.01);
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+~out.group.set(\trig, 0.1, \dt, 1, \xfreq, rrand(2000,9000));
+
+// removing the trig rate:
+~out.setRates(\trig, nil);
+
+// note that the same works with the i_ and the t_ arguments, just as it does in SynthDef
+
+
+
+
+
+
+___________________________________________________________________
+other possible inputs
+
+
+using a synthdef as input
+
+
+// for a more systematic overview see: [jitlib_fading]
+
+// you have the responsibility for the right number of channels and output rate
+// you have to supply an 'out' argument so it can be mapped to the right channel.
+
+~out.play;
+~out = SynthDef("w", { arg out=0; Out.ar(out,SinOsc.ar([Rand(430, 600), 600], 0, 0.2)) });
+~out = SynthDef("w", { arg out=0; Out.ar(out,SinOsc.ar([Rand(430, 600), 500], 0, 0.2)) });
+
+
+// if you supply a gate it fades in and out. evaluate this several times
+(
+~out = SynthDef("w", { arg out=0, gate=1.0;
+	Out.ar(out,
+		SinOsc.ar([Rand(430, 800), Rand(430, 800)], 0, 0.2) * EnvGen.kr(Env.asr(1,1,1), gate, doneAction:2)
+	)
+	});
+)
+
+// once the SynthDef is sent, it can be assigned by name.
+// using this method, a gate argument should be
+// provided that releases the synth. (doneAction:2)
+// this is very efficient, as the def is on the server already.
+
+// if the synth def is in the synthdesc lib (.store) its gate is detected.
+
+(
+SynthDef("staub", { arg out, gate=1;
+	Out.ar(out, Ringz.ar(Dust.ar(15), Rand(1, 3) * 3000*[1,1], 0.001) * EnvGen.kr(Env.asr, gate, doneAction:2))
+}).send(s);
+)
+
+~out = \staub;
+
+
+
+// if you supply an envelope that frees itself, no bundle is sent to free it
+(
+~out = SynthDef("w", { arg out, lfo, f0=430;
+	Out.ar(out,
+		SinOsc.ar([Rand(f0, 800), Rand(f0, 800)]+lfo, 0, 0.2) * EnvGen.kr(Env.perc(0.01, 0.03), doneAction:2)
+	)
+	});
+)
+
+~out.spawn;
+~out.spawn([\f0, 5000]);
+fork { 5.do { ~out.spawn([\f0, 5000 + 1000.0.rand]); 0.1.wait; } }
+
+
+// when the synth description in the SynthDescLib is found for the symbol,
+// the proxy can determine whether to release or to free the synth.
+// so if there is no 'gate' arg provided and the def has a desc, the synth is
+// freed and not released.
+
+(
+SynthDef("staub", { arg out;
+	Out.ar(out, Ringz.ar(WhiteNoise.ar(0.01), 1000*[1,1], 0.001))
+}).store; // store the synth def so it is added to the SynthDescLib
+)
+
+
+~out = \staub;
+~out = \staub; // watching the synth count shows that the old synth is freed.
+~out = 0;  	// now out plays continuous stream of zero.
+~out = nil;	// removes object and stops it.
+
+using patterns
+
+// example
+
+(
+SynthDef("who", { arg amp=0.1, freq=440, detune=0, gate=1, out=0, ffreq=800;
+	var env;
+	env = Env.asr(0.01, amp, 0.5);
+	Out.ar(out, Pan2.ar(
+		Formant.ar(freq + detune, ffreq, 30, EnvGen.kr(env, gate, doneAction:2)), Rand(-1.0, 1.0))
+	)
+}).store;
+
+)
+
+~out.play;
+
+
+~out = Pbind(\instrument, \who, \freq, [600, 601], \ffreq, 800, \legato, 0.02);
+
+
+
+
+// embed a control node proxy into an event pattern:
+// this does not work for indirect assignment as \degree, \midinote, etc.,
+// because there is calculations in the event! if needed, these can be done in the SynthDef.
+
+~lfo = { SinOsc.kr(2, 0, 400, 700) };
+~out = Pbind(\instrument, \who, \freq, 500, \ffreq, ~lfo, \legato, 0.02);
+
+~lfo = { SinOsc.kr(SinOsc.kr(0.2, Rand(0,pi), 10, 10), 0, 400, 700) };
+
+~lfo = { LFNoise1.kr(5, 1300, 1500) };
+~lfo = { MouseX.kr(100, 5500, 1) };
+
+(
+~out = Pbind(
+			\instrument, \who,
+			\freq, Pseq([500, 380, 300],inf),
+			\legato, 0.1,
+			\ffreq, Pseq([~lfo, 100, ~lfo, 100, 300, 550], inf), // use it in a pattern
+			\dur, Pseq([1, 0.5, 0.75, 0.125]*0.4, inf)
+		);
+)
+
+// note that when you use a proxy within a non-event pattern it gets embedded as an object,
+// so this functionality is still standard
+
+// works only with control rate proxies. multichannel control rate proxies cause
+// multichannel expansion of the events:
+
+~lfoStereo = { LFNoise1.kr([1, 1], 1300, 1500) }; // 2 channel control rate proxy
+~out = Pbind(\instrument, \who, \freq, 1500, \detune, ~lfoStereo, \legato, 0.02);
+~lfoStereo = { [MouseX.kr(100, 15500, 1), SinOsc.kr(SinOsc.kr(0.2, 0, 10, 10), 0, 400, 700)] }
+
+// btw: setting the clock will cause the pattern to sync:
+p.clock = TempoClock.default;
+p.clock.tempo = 2.0;
+p.clock.tempo = 1.0
+
+
+// patterns also crossfade, if an \amp arg is defined in the synthdef:
+// (evaluate a couple of times)
+~out.fadeTime = 3.0;
+(
+~out = Pbind(
+			\instrument, \who,
+			\freq, Pshuf([500, 380, 200, 510, 390, 300, 300],inf) * rrand(1.0, 2.0),
+			\legato, 0.1,
+			\ffreq, Pshuf([~lfo, 100, ~lfo, 100, 300, 550], inf),
+			\dur, 0.125 * [1, 2, 3, 2/3].choose
+		);
+)
+
+
+using instruments and players
+
+// pause and resume do not work yet.
+
+
+// store an instrument
+(
+Instr(\test,
+		{ arg dens=520, ffreq=7000; Ringz.ar(Dust.ar(dens, [1,1]*0.1), ffreq, 0.02) }
+		);
+)
+
+~out = Patch(\test, [10, rrand(5000, 8000)]);
+~out.fadeTime = 3;
+
+
+(
+~out = InstrSpawner({ arg freq=1900,env,pan;
+	Pan2.ar(SinOsc.ar(freq, 0.5pi, 0.3) * EnvGen.kr(env, doneAction: 2), pan)
+},[
+	Prand([1500, 700, 800, 3000] + 170.rand2, inf),
+	Env.perc(0.002,0.01),
+	Prand([-1,1],inf)
+],0.125)
+)
+
+~out.clear;
+
+
+
+// does not work (yet).
+//~out.set(\dens, 120);
+//~out.xset(\dens, 1030);
+//~out.unmap(\ffreq);
+//~out.set(\ffreq, 500);
+
+
+___________________________________________________________________
+client side routines
+
+spawning
+
+~out.play;
+~out.awake = false; // allow sound object assignment without immediate sending
+
+// putting an synthdef into the node proxy without playing it right away
+// the synthdef has an envelope that frees by itself.
+(
+~out = SynthDef("a", { arg out=0, freq=800, pmf=1.0, pan;
+		var env, u;
+		env = EnvGen.kr(Env.perc(0.001, 0.04, 0.4),doneAction:2); // envelope
+		u = SinOsc.ar(freq * Rand(0.9, 1.1), SinOsc.ar(pmf, 0, pi), env);
+		Out.ar(out, Pan2.ar(u, pan))
+	})
+);
+
+
+// create a task to repeatedly send grains
+(
+t = Task.new({
+	loop({
+		// starts a synth with the current synthdef at index 0
+		~out.spawn([\pmf, [1, 20, 300].choose, \pan, [0, -1, 1].choose]);
+		[0.1, 0.01, 0.25].choose.wait;
+	})
+});
+)
+
+t.start;
+t.stop;
+t.start;
+
+// note: if you want to avoid using interpreter variables (single letter, like "t"),
+// you can use Tdef for this. (see Tdef.help)
+
+// set some argument
+~out.set(\freq, 300);
+~out.set(\freq, 600);
+~out.map(\freq, ~lfo);
+~lfo = { SinOsc.kr(0.1, 0, 3000, 4000) };
+~lfo = { SinOsc.kr(0.1, 0, 600, 700) };
+~lfo.add({ Trig.kr(Dust.kr(1), 0.1) * 3000 });
+~lfo = 300;
+
+// change the definition while going along
+(
+~out = SynthDef("a", { arg out, freq=800;
+		var env;
+		env = EnvGen.kr(Env.perc(0.01, 0.1, 0.3),doneAction:2);
+		Out.ar(out, Pulse.ar(freq * Rand([0.9,0.9], 1.1), 0.5, env) )
+	});
+)
+
+
+t.stop;
+~out.awake = true; // don't forget this
+//  free all synths in this current ProxySpace
+currentEnvironment.clear;
+
+
+
+
+granular synthesis: efficient code
+
+see also [jitlib_efficiency]
+
+~out.play;
+
+(
+SynthDef("grain", { arg i_out = 0, pan;
+	var env;
+	env = EnvGen.kr(Env.perc(0.001, 0.003, 0.2),doneAction:2);
+	Out.ar(i_out, Pan2.ar(FSinOsc.ar(Rand(1000,10000)), pan) * env)
+}).send(s);
+)
+
+// a target for the grains
+~someInput.ar(2);  // initialize to 2 channels audio
+~out = ~someInput;
+
+(
+t = Task({
+	loop({
+		s.sendMsg("/s_new","grain",-1,0,0,
+			\i_out, ~someInput.index, // returns the bus index of the proxy
+			\pan, [1, 1, -1].choose * 0.2
+		);
+		[0.01, 0.02].choose.wait;
+	})
+});
+)
+t.play;
+
+// different filters;
+
+~out.fadeTime = 1.0;
+
+~out = { BPF.ar(~someInput.ar, MouseX.kr(100, 18000, 1), 0.1) };
+
+~out = { CombL.ar(~someInput.ar * (LFNoise0.ar(2) > 0), 0.2, 0.2, MouseX.kr(0.1, 5, 1)) };
+
+~out = { RLPF.ar(~someInput.ar, LFNoise1.kr(3, 1000, 1040), 0.05) };
+
+
+t.stop;
+
+
+
+//_________
+
+~out.stop;
+currentEnvironment.clear;
+ProxySpace.pop; // restore original environment
+
+
+
+________________________________________________________________________
+
+
+using multiple proxyspaces
+note that this can be done while the server is not running: with p.wakeUp or p.play
+the environment can be played back.
+
+// quit server:
+
+s.quit;
+
+
+// create two proxyspaces without a running server
+(
+p = ProxySpace(s);
+q = ProxySpace(s);
+
+p.use({
+	~out = { Resonz.ar(~in.ar, ~freq.kr, 0.01) };
+	~in = { WhiteNoise.ar(0.5) };
+	~freq = { LFNoise2.kr(1, 1000, 2000) };
+});
+
+q.use({
+
+	~in = { Dust.ar(20, 0.1) };
+	~out = { Resonz.ar(~in.ar * 450, ~freq.kr, 0.005) };
+	~freq = { LFNoise2.kr(1, 400, 2000) };
+});
+)
+
+// wait for the booted  server
+s.boot;
+
+// play the proxy at \out
+p.play(\out);
+q.play; // out is the default output
+
+
+external access
+
+
+q[\in][1] = { Impulse.ar(2, 0, 0.5) }; // adding a synth at index 1
+
+// equivalent to
+q.at(\in).put(1, { Impulse.ar(7, 0, 0.5) });
+
+
+connecting two spaces (must be on one server)
+
+
+(
+q.use({
+	~freq =  100 + p[\freq] / 2;
+})
+)
+
+recording output (see also: [RecNodeProxy])
+
+
+r = p.record(\out, "proxySpace.aiff");
+
+// start recording
+r.unpause;
+
+// pause recording
+r.pause;
+
+// stop recording
+r.close;
+
+
+
+
+
+push/pop
+
+
+// make x the currentEnvironment
+p.push;
+
+~freq = 700;
+~freq = 400;
+~freq = { p.kr(\freq) + LFNoise1.kr(1, 200, 300) % 400 }; // feedback
+~freq = 400;
+
+p.pop; // restore environment
+
+
+// make y the currentEnvironment
+q.push;
+
+~freq = 1000;
+~in = { WhiteNoise.ar(0.01) };
+
+q.pop; // restore environment
+
+q.clear;
+p.clear;
+
+
+
+
+______________________________________________________________
+
+some more topics
+
+nodeproxy with numbers as input:
+
+p = ProxySpace.push(s.boot);
+
+
+~out = { SinOsc.ar(~a.kr * Rand(1, 2), 0, 0.1) };
+~out.play;
+
+~a = 900;
+
+// these add up:
+~a[0] = 440;
+~a[1] = 220;
+~a[2] = 20;
+
+~a.fadeTime = 2;
+
+~a[0] = 300; // now there is a crossfade.
+~a[1] = { SinOsc.kr(5, 0, 20) };
+~a[2] = { SinOsc.kr(30, 0, 145) };
+
+
+
+// internally a numerical input is approximately replaced by:
+// (pseudocode)
+SynthDef("name", { arg out, fadeTime;
+	 Out.kr(out,
+	 	Control.kr(Array.fill(proxy.numChannels, { the number }))
+	 		* EnvGate.new(fadeTime:fadeTime)
+	 )
+});
+
+
 
 
 
