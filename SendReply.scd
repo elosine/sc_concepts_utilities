@@ -1,4 +1,4 @@
-(
+
 s.sendMsg(\g_new, 2000);
 s.sendMsg(\g_new, 2001, 3, 2000);
 s.sendMsg(\g_new, 2002, 3, 2001);
@@ -26,8 +26,24 @@ SynthDef(\timedtrig, {
 }).add;
 
 
-)
+//--supercollider code
+s.boot
 
+s.options.maxLogins = 5;
+(
+SynthDef(\osctest, {
+        SendReply.kr(Impulse.kr(1), '/test', SinOsc.kr(0.11));
+}).add;
+)
+Synth(\osctest)
+
+o= OSCresponder(s.addr, '/test', {|t, r, m| m.postln}).add
+o.remove
+
+
+
+
+s.options.maxLogins = 10
 
 
 
