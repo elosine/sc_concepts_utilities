@@ -53,7 +53,7 @@ s.waitForBoot{
 		Out.ar(obs, [sig, DelayC.ar(sig, 0.2, 0.03)]);
 	}).add;
 
-	f=16.352;
+	f=32.704;
 	w = Window.new("Harmonic Toy Piano");
 	w.view.keyDownAction = { arg view, char, modifiers, unicode, keycode;
 		switch( unicode,
