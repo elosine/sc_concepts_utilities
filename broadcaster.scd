@@ -9,18 +9,15 @@ OSCdef(\joinBroadcast, { |msg time addr recvPort|
 	addr.postln;
 	recvPort.postln;
 	//see if id is already used
-	if( ~broadcastList.includesKey(id), { ip.sendMsg("/reply", "Sorry, that ID is taken. Please choose another") },
+	if( ~broadcastList.includesKey(id), { NetAddr(ip.ip, 12321).sendMsg("/reply", "Sorry, that ID is taken. Please choose another") },
 		{ //if not id is not already used
 			~broadcastList.put(id, ip);
 			//post complete list
 			dArray = ~broadcastList.asSortedArray;
 			dArray.do({|it ix| it[0].post; " : ".post; it[1].postln});
 	});
-}, "/join");
+}, "/id");
 )
 
-n = NetAddr("127.0.0.1", 57120);
-n.sendMsg("/join", \33033);
-OSCdef(\reply, {|msg| msg.postln}, "/reply");
+NetAddr(~broadcastList[\jyang].ip, 12321).sendMsg("/bounce", 17.0, 0.171);
 
-//do openframeworks, add text box for id and button to send
