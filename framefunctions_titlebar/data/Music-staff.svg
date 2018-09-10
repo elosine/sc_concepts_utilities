@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="34.017857mm"
+   height="26.458332mm"
+   viewBox="0 0 34.017857 26.458332"
+   version="1.1"
+   id="svg3806"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="Music-staff.svg">
+  <defs
+     id="defs3800">
+    <inkscape:perspective
+       id="perspective4144"
+       inkscape:persp3d-origin="0.50000002 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3866">
+      <rect
+         id="rect3868"
+         width="34.017857"
+         height="28.173044"
+         x="18.898808"
+         y="20.699406"
+         style="stroke-width:0.26458332" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.82"
+     inkscape:cx="129.99259"
+     inkscape:cy="-339.81593"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1031"
+     inkscape:window-x="1440"
+     inkscape:window-y="1"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3803">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-18.898809,-20.699406)">
+    <path
+       id="path4152"
+       d="m 18.898809,46.628572 v -0.529167 h 26.458333 26.458334 v 0.529167 0.529166 H 45.357142 18.898809 Z m 0,-6.35 v -0.529167 h 26.458333 26.458334 v 0.529167 0.529166 H 45.357142 18.898809 Z m 0,-6.35 v -0.529167 h 26.458333 26.458334 v 0.529167 0.529166 H 45.357142 18.898809 Z m 0,-6.350001 v -0.529166 h 26.458333 26.458334 v 0.529166 0.529167 H 45.357142 18.898809 Z m 0,-6.35 v -0.529166 h 26.458333 26.458334 v 0.529166 0.529167 H 45.357142 18.898809 Z"
+       style="fill:#000000;stroke-width:0.26458332"
+       inkscape:connector-curvature="0"
+       clip-path="url(#clipPath3866)" />
+  </g>
+</svg>
