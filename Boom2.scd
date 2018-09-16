@@ -34,6 +34,9 @@ Out.ar(out, toggle*FreeVerb.ar(
 }).send(s)
 )
 
+Tension: 0.0023
+Loss: 0.99942
+
 a= Synth(\boom, [\out, 0]);     			//Synth
 
 
