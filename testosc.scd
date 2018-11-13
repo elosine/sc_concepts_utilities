@@ -1,0 +1,1 @@
+OSCdef(\tt, {|msg| msg.postln;}, "/1/fader2");
